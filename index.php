@@ -7,30 +7,195 @@
     $email = new Imap();
 
 
-    $intxo = null;
+    $inbox = null;
 
     if($email->connect(
         '{mail.neumatruck.cl:143/notls}INBOX',
         'contacto@neumatruck.cl',
         '7340458Tao'
     )){
-
+        // * inbox son los datos del correo
+        // ! se debe descargar el archivo adjunto
+        // ? se debe realizar lo urgente
+        //  TODO 
+        
         $inbox = $email->getMessages("html");
+      
+        // echo $documents;
 
     }
-     
-    echo getType($inbox);
+    // * $body es ela vairab le con el correo 
+    // 
+    
+    $selector = 2;
 
-    echo '<pre>';
-    print_r($inbox);
-    echo '------------<pre>';
+    $id = $inbox["data"][$selector]["uid"];
+    $body = $inbox["data"][$selector]["message"];
+    $attachments = $inbox["data"][$selector]["attachments"];
+    $file = $inbox["data"][$selector]["attachments"][0]["file"];
+    $file2 = $inbox["data"][$selector]["attachments"][1]["file"];
+    $file3 = $inbox["data"][$selector]["attachments"][2]["file"];
 
-   
+    echo $id.'<br>';
+    echo $file.'<br>';
+    echo $file2.'<br>';
+    echo $file3.'<br>';
+
+    echo '<a href="attachments/'.$file.'">var uno</a><br>';
+    echo '<a href="'.$file2.'">var do</a><br>';
+
+    $url = "{mail.neumatruck.cl:993/imap/ssl/novalidate-cert}INBOX";
+    $id = "contacto@neumatruck.cl";
+    $pwd = "7340458Tao";
+    $imap = imap_open($url, $id, $pwd);
+
+     $mailbox = imap_open ("{correo.servidor.com:993/imap/ssl/novalidate-cert}INBOX", "correo@usuario.com", "PASSWORD");
+
+    if (!$mailbox){
+        die('murio');
+    }
+
+    echo "<h1>Buzones</h1>\n";
+    $carpetas = imap_listmailbox($mailbox, "{correo.patronato.unam.mx:993}", "*");
+
+    if ($carpetas == false) {
+        echo "Llamada fallida<br />\n";
+    } else {
+        foreach ($carpetas as $val) {
+            echo $val . "<br />\n";
+        }
+    }
+
+    echo "<h1>Cabeceras en INBOX</h1>\n";
+    $cabeceras = imap_headers($mailbox);
+
+    if ($cabeceras == false) {
+        echo "Llamada fallida<br />\n";
+    } else {
+        foreach ($cabeceras as $val) {
+            echo $val . "<br />\n";
+        }
+    }
+
+
+
+    $numMessages = imap_num_msg($mailbox);
+    for ($i = $numMessages; $i > 0; $i--) {
+        $header = imap_header($mailbox, $i);
+
+        $fromInfo = $header->from[0];
+        $replyInfo = $header->reply_to[0];
+
+        // print_r($header);
+
+        $details = array(
+            "fromAddr" => (isset($fromInfo->mailbox) && isset($fromInfo->host))
+                ? $fromInfo->mailbox . "@" . $fromInfo->host : "",
+            "fromName" => (isset($fromInfo->personal))
+                ? $fromInfo->personal : "",
+            "replyAddr" => (isset($replyInfo->mailbox) && isset($replyInfo->host))
+                ? $replyInfo->mailbox . "@" . $replyInfo->host : "",
+            "replyName" => (isset($replyTo->personal))
+                ? $replyto->personal : "",
+            "subject" => (isset($header->subject))
+                ? $header->subject : "",
+            "udate" => (isset($header->udate))
+                ? $header->udate : "",
+            "Unseen" => (isset($header->Unseen))
+                ? $header->Unseen  : "-"
+        );
+        $uid = imap_uid($mailbox, $i);
+
+        echo "<ul>";
+        echo "<li><strong>From:</strong>" . $details["fromName"];
+        echo " " . $details["fromAddr"] . "</li>";
+        echo "<li><strong>Subject:</strong> " . $details["subject"] . "</li>";
+        echo "<li><strong>Estatus:</strong> " . $details["Unseen"] . "</li>";
+        echo '<li><a href="test_imap_attachment.php?folder=' . $folder . '&uid=' . $i . '">Read</a></li>';
+        echo "</ul>";
+    }
+
+
+    imap_close($mailbox);
+
+    // --------------------------------------------------
+
+
+    $mailbox = imap_open ("{mail.neumatruck.cl:993/imap/ssl/novalidate-cert}INBOX", "contacto@neumatruck.cl", "7340458Tao");
+
+    if (!$mailbox){
+        die('murio');
+    }
+
+    echo "<h1>Buzones</h1>\n";
+    $carpetas = imap_listmailbox($mailbox, "{mail.neumatruck.cl:993}", "*");
+
+    if ($carpetas == false) {
+        echo "Llamada fallida<br />\n";
+    } else {
+        foreach ($carpetas as $val) {
+            echo $val . "<br />\n";
+        }
+    }
+
+    echo "<h1>Cabeceras en INBOX</h1>\n";
+    $cabeceras = imap_headers($mailbox);
+
+    if ($cabeceras == false) {
+        echo "Llamada fallida<br />\n";
+    } else {
+        foreach ($cabeceras as $val) {
+            echo $val . "<br />\n";
+        }
+    }
+
+
+
+    $numMessages = imap_num_msg($mailbox);
+    for ($i = $numMessages; $i > 0; $i--) {
+        $header = imap_header($mailbox, $i);
+
+        $fromInfo = $header->from[0];
+        $replyInfo = $header->reply_to[0];
+
+        // print_r($header);
+
+        $details = array(
+            "fromAddr" => (isset($fromInfo->mailbox) && isset($fromInfo->host))
+                ? $fromInfo->mailbox . "@" . $fromInfo->host : "",
+            "fromName" => (isset($fromInfo->personal))
+                ? $fromInfo->personal : "",
+            "replyAddr" => (isset($replyInfo->mailbox) && isset($replyInfo->host))
+                ? $replyInfo->mailbox . "@" . $replyInfo->host : "",
+            "replyName" => (isset($replyTo->personal))
+                ? $replyto->personal : "",
+            "subject" => (isset($header->subject))
+                ? $header->subject : "",
+            "udate" => (isset($header->udate))
+                ? $header->udate : "",
+            "Unseen" => (isset($header->Unseen))
+                ? $header->Unseen  : "-"
+        );
+        $uid = imap_uid($mailbox, $i);
+
+        echo "<ul>";
+        echo "<li><strong>From:</strong>" . $details["fromName"];
+        echo " " . $details["fromAddr"] . "</li>";
+        echo "<li><strong>Subject:</strong> " . $details["subject"] . "</li>";
+        echo "<li><strong>Estatus:</strong> " . $details["Unseen"] . "</li>";
+        echo '<li><a href="test_imap_attachment.php?folder=' . $folder . '&uid=' . $i . '">Read</a></li>';
+        echo "</ul>";
+    }
+
+
+    imap_close($mailbox);
 
 
     echo "------------------------finish $intento---------------------";
 
 ?>
+
+
 <!DOCTYPE html>
 <!-- Bootstrap -->
 <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
@@ -44,31 +209,6 @@ body {
 
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-<div class="container">
-	<div class="row">
-		<div class="col-md-12"> 
-			<h3 align="center">Email Inbox <a href="mailto:hello@bachors.com">hello@bachors.com</a></h3>
-			<a class="github-button" href="https://github.com/bachors/Email-Inbox-IMAP" data-icon="octicon-cloud-download" data-size="large" aria-label="Download bachors/Email-Inbox-IMAP on GitHub">Download</a>
-			<hr>
-
-			<table id="myTable" class="display" cellspacing="0" width="100%">
-				<thead>
-					<tr>
-						<th>No</th>
-						<th>Subject</th>
-						<th>Name</th>
-						<th>Email</th>
-						<th>Date</th>
-					</tr>
-				</thead>
-				<tbody id="inbox">
-
-				</tbody>
-			</table>
-				
-		</div>					
-	</div>					
-</div>
 
 <!-- Modal message -->		
 <div id="addModal" class="modal fade" role="dialog">
