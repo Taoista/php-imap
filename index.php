@@ -34,167 +34,131 @@
     $attachments = $inbox["data"][$selector]["attachments"];
     $file = $inbox["data"][$selector]["attachments"][0]["file"];
     $file2 = $inbox["data"][$selector]["attachments"][1]["file"];
-    $file3 = $inbox["data"][$selector]["attachments"][2]["file"];
+    // $file3 = $inbox["data"][$selector]["attachments"][2]["file"];
 
     echo $id.'<br>';
     echo $file.'<br>';
     echo $file2.'<br>';
-    echo $file3.'<br>';
+    // echo $file3.'<br>';
 
     echo '<a href="attachments/'.$file.'">var uno</a><br>';
     echo '<a href="'.$file2.'">var do</a><br>';
 
-    $url = "{mail.neumatruck.cl:993/imap/ssl/novalidate-cert}INBOX";
-    $id = "contacto@neumatruck.cl";
-    $pwd = "7340458Tao";
-    $imap = imap_open($url, $id, $pwd);
 
-     $mailbox = imap_open ("{correo.servidor.com:993/imap/ssl/novalidate-cert}INBOX", "correo@usuario.com", "PASSWORD");
-
-    if (!$mailbox){
-        die('murio');
-    }
-
-    echo "<h1>Buzones</h1>\n";
-    $carpetas = imap_listmailbox($mailbox, "{correo.patronato.unam.mx:993}", "*");
-
-    if ($carpetas == false) {
-        echo "Llamada fallida<br />\n";
-    } else {
-        foreach ($carpetas as $val) {
-            echo $val . "<br />\n";
-        }
-    }
-
-    echo "<h1>Cabeceras en INBOX</h1>\n";
-    $cabeceras = imap_headers($mailbox);
-
-    if ($cabeceras == false) {
-        echo "Llamada fallida<br />\n";
-    } else {
-        foreach ($cabeceras as $val) {
-            echo $val . "<br />\n";
-        }
-    }
-
-
-
-    $numMessages = imap_num_msg($mailbox);
-    for ($i = $numMessages; $i > 0; $i--) {
-        $header = imap_header($mailbox, $i);
-
-        $fromInfo = $header->from[0];
-        $replyInfo = $header->reply_to[0];
-
-        // print_r($header);
-
-        $details = array(
-            "fromAddr" => (isset($fromInfo->mailbox) && isset($fromInfo->host))
-                ? $fromInfo->mailbox . "@" . $fromInfo->host : "",
-            "fromName" => (isset($fromInfo->personal))
-                ? $fromInfo->personal : "",
-            "replyAddr" => (isset($replyInfo->mailbox) && isset($replyInfo->host))
-                ? $replyInfo->mailbox . "@" . $replyInfo->host : "",
-            "replyName" => (isset($replyTo->personal))
-                ? $replyto->personal : "",
-            "subject" => (isset($header->subject))
-                ? $header->subject : "",
-            "udate" => (isset($header->udate))
-                ? $header->udate : "",
-            "Unseen" => (isset($header->Unseen))
-                ? $header->Unseen  : "-"
-        );
-        $uid = imap_uid($mailbox, $i);
-
-        echo "<ul>";
-        echo "<li><strong>From:</strong>" . $details["fromName"];
-        echo " " . $details["fromAddr"] . "</li>";
-        echo "<li><strong>Subject:</strong> " . $details["subject"] . "</li>";
-        echo "<li><strong>Estatus:</strong> " . $details["Unseen"] . "</li>";
-        echo '<li><a href="test_imap_attachment.php?folder=' . $folder . '&uid=' . $i . '">Read</a></li>';
-        echo "</ul>";
-    }
-
-
-    imap_close($mailbox);
-
-    // --------------------------------------------------
-
-
-    $mailbox = imap_open ("{mail.neumatruck.cl:993/imap/ssl/novalidate-cert}INBOX", "contacto@neumatruck.cl", "7340458Tao");
-
-    if (!$mailbox){
-        die('murio');
-    }
-
-    echo "<h1>Buzones</h1>\n";
-    $carpetas = imap_listmailbox($mailbox, "{mail.neumatruck.cl:993}", "*");
-
-    if ($carpetas == false) {
-        echo "Llamada fallida<br />\n";
-    } else {
-        foreach ($carpetas as $val) {
-            echo $val . "<br />\n";
-        }
-    }
-
-    echo "<h1>Cabeceras en INBOX</h1>\n";
-    $cabeceras = imap_headers($mailbox);
-
-    if ($cabeceras == false) {
-        echo "Llamada fallida<br />\n";
-    } else {
-        foreach ($cabeceras as $val) {
-            echo $val . "<br />\n";
-        }
-    }
-
-
-
-    $numMessages = imap_num_msg($mailbox);
-    for ($i = $numMessages; $i > 0; $i--) {
-        $header = imap_header($mailbox, $i);
-
-        $fromInfo = $header->from[0];
-        $replyInfo = $header->reply_to[0];
-
-        // print_r($header);
-
-        $details = array(
-            "fromAddr" => (isset($fromInfo->mailbox) && isset($fromInfo->host))
-                ? $fromInfo->mailbox . "@" . $fromInfo->host : "",
-            "fromName" => (isset($fromInfo->personal))
-                ? $fromInfo->personal : "",
-            "replyAddr" => (isset($replyInfo->mailbox) && isset($replyInfo->host))
-                ? $replyInfo->mailbox . "@" . $replyInfo->host : "",
-            "replyName" => (isset($replyTo->personal))
-                ? $replyto->personal : "",
-            "subject" => (isset($header->subject))
-                ? $header->subject : "",
-            "udate" => (isset($header->udate))
-                ? $header->udate : "",
-            "Unseen" => (isset($header->Unseen))
-                ? $header->Unseen  : "-"
-        );
-        $uid = imap_uid($mailbox, $i);
-
-        echo "<ul>";
-        echo "<li><strong>From:</strong>" . $details["fromName"];
-        echo " " . $details["fromAddr"] . "</li>";
-        echo "<li><strong>Subject:</strong> " . $details["subject"] . "</li>";
-        echo "<li><strong>Estatus:</strong> " . $details["Unseen"] . "</li>";
-        echo '<li><a href="test_imap_attachment.php?folder=' . $folder . '&uid=' . $i . '">Read</a></li>';
-        echo "</ul>";
-    }
-
-
-    imap_close($mailbox);
-
+    // imap_close($email);
 
     echo "------------------------finish $intento---------------------";
 
-?>
 
+    echo "------------------------second intento---------------------"."<br>";
+
+    // set_time_limit(3000);
+
+
+    $hostname = '{mail.neumatruck.cl:993/novalidate-cert/imap/ssl}';
+    // $hostname = '{mail.neumatruck.cl:110/pop3}';
+    // $hostname = '{mail.neumatruck.cl:993/ssl}INBOX';
+    // $hostname = '{mail.neumatruck.cl:143/notls}INBOX';
+    $username = 'contacto@neumatruck.cl';
+    $password = '7340458Tao';
+
+    $inbox = imap_open($hostname, $username, $password) or die("imposible realizar conexion".imap_last_error());
+
+    $emails = imap_search($inbox, 'FROM "Rodrigo.Jara@cl.kghm.com"');
+
+    if($emails){
+        $count = 1;
+        rsort($emails);
+
+        foreach ($emails as $emails_number) {
+            
+            $overview = imap_fetchbody($inbox, $emails_number, 2);
+
+            $structure = imap_fetchstructure($inbox, $emails_number);
+
+            $attachments = array();
+
+            if(isset($structure->parts) && count($structure->parts)){
+                for ($i=0; $i < count($structure->parts) ; $i++) { 
+                    $attachments[$i] = array(
+                        'is_attachment' => false,
+                        'filname' => '',
+                        'name' => '',
+                        'attachment' => ''
+                    );
+
+                    if($structure->parts[$i]->ifdparameters){
+                        foreach ($structure->parts[$i]->dparameters as $object) {
+                            if(strtolower($object->attribute) == 'filename'){
+                                $attachments[$i]['is_attachment'] = true;
+                                $attachments[$i]['filename'] = $object->value;
+                            }
+                        }
+                    }
+
+                    if($structure->parts[$i]->ifparameters){
+                        foreach ($structure->parts[$i]->parameters as $object) {
+                            if(strtolower($object->attribute) == 'name'){
+                                $attachments[$i]["is_attachment"] = true;
+                                $attachments[$i]["name"] = $object->value;
+                            }
+                        }
+                    }
+
+                    if($attachments[$i]["is_attachment"]){
+                        $attachments[$i]['attachment'] = imap_fetchbody($inbox, $emails_number, $i+1);
+                        // ? base de encoding BASE64
+                        if($structure->parts[$i]->encoding == 3){
+                            $attachments[$i]["attachment"] = base64_decode($attachments[$i]["attachment"]);
+                        }
+                        elseif ($structure->parts[$i]->encoding == 4) {
+                            $attachments[$i]['attachment'] = quoted_printable_decode($attachments[$i]['attachment']);
+                        }
+
+                    }
+
+                  
+
+
+                }
+            }
+
+            foreach ($attachments as $attachment) {
+                if($attachment["is_attachment"] ==  1){
+                    $filename = $attachment['name'];
+
+                    if(empty($filename)) $filename = $attachment['filename'];
+
+                    if(empty($filename)) $filename = time().'.dat';
+                    $folder = "attachment";
+
+                    if(!is_dir($folder)){
+                        mkdir($folder);
+                    }
+
+                    $fp = fopen("./".$folder."/".$emails_number."-".$filename, "w+");
+
+                    fwrite($fp, $attachment['attachment']);
+
+                    fclose($fp);
+
+                }
+            }
+
+        }
+
+    }
+
+    // * close conexion
+    
+    imap_close($inbox);
+
+    echo "all attachment downloades"."<br>";
+
+
+    echo "------------------------end intento---------------------"."<br>";
+
+?>
 
 <!DOCTYPE html>
 <!-- Bootstrap -->
